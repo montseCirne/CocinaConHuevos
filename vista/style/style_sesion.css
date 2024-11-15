@@ -1,0 +1,54 @@
+.imagen_login{
+    height: 100px;
+}
+
+.link_sesion a{
+    text-decoration: none; /* Quitar el subrayado */
+    color: inherit;        /* Heredar el color del elemento padre */
+}
+
+.link_sesion a h3{
+    font-weight: bold;
+}
+
+.fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../image/huevos-rancheros.jpg'); /* Cambia por la ruta de tu imagen */
+    background-size: cover; /* Ajusta la imagen para que cubra toda la pantalla */
+    background-position: center;
+    filter: blur(5px); /* Aplicar el difuminado a la imagen de fondo */
+    z-index: -1; /* Asegura que esté detrás del contenido */
+}
+.spinner{
+    transform: scale(3);
+}
+#Cartas, #CartasCarrito {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 1px;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: 1px;
+    overflow-x: hidden;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.card .card-image img {
+    width: 100%;
+    height: 300px; /* Ajusta la altura de las imágenes según sea necesario */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+}
+
+.card-content {
+    flex-grow: 1;
+}

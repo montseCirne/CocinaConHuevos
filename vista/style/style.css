@@ -1,0 +1,19 @@
+body {
+    background-color: #efefef;
+}
+
+.navegacion{
+    margin: 20px;
+}
+
+.receta{
+    margin-bottom: 20px;
+}
+
+.spinner{
+    transform: scale(3);
+}
+  
+
+
+
