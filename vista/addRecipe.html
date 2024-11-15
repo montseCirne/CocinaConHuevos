@@ -90,6 +90,13 @@
                               <label for="exampleInputEmail1" class="form-label">Nombre de la receta</label>
                               <input type="text" class="form-control" id="nombre_usuario_registro" aria-describedby="emailHelp" placeholder="Nombre de receta" required>
                             </div><br>
+                            <div>
+                                <label for="categoria">Categoría:</label>
+                                <select id="categoria" name="categoria" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <!-- Opciones se llenarán dinámicamente desde la base de datos -->
+                                </select>
+                            </div><br>
 
                             <!-- IMAGEN DE RECETA -->
                             <div class="mb-3">
@@ -107,8 +114,8 @@
                             <textarea class="form-control" placeholder="Ingredientes" id="Ingredientes"></textarea><br>
 
                             <!-- MODO DE PREPARACION -->
-                            <textarea class="form-control" placeholder="Modo de preparacion" id="modo_preparacion"></textarea>
-                            
+                            <textarea class="form-control" placeholder="Modo de preparacion" id="modo_preparacion"></textarea><br>
+                            <button type="submit" class="btn btn-warning" id="guardar_receta">Guardar Receta</button>
                         </form>
                     </div>
                 </div>
@@ -149,8 +156,6 @@
                                 </div>
                             <!-- FIN DEL RENGLON -->
                             </div>
-
-                            
                         </div>
                     </div>
                 </div>
