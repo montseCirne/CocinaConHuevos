@@ -1,7 +1,9 @@
-var userID = sessionStorage.getItem('idU');
-var recetarioID = sessionStorage.getItem('idRecetario');
 
 $(document).ready(function () {
+    var userID = sessionStorage.getItem('idU');
+    var recetarioID = sessionStorage.getItem('idRecetario');
+
+
     $('#Crear').on('click', function(event) {
         event.preventDefault(); // Evita el envío predeterminado del formulario
         verificarCorreoExistente();
@@ -10,6 +12,7 @@ $(document).ready(function () {
         console.log("Se tiene una sesión abierta, ID de usuario: " + userID);
         if (!recetarioID || recetarioID === '0') {
             obtenerRecetario(userID);
+            cargarPerfil(userID);
         } else {
             console.log("ID Recetario: " + recetarioID);
         }
@@ -17,6 +20,42 @@ $(document).ready(function () {
         console.log("Usuario no autenticado o visitante");
     }
 
+    function cargarPerfil(userID) {
+        $.ajax({
+            url: '../modelo/recuperarInfo.php',
+            method: 'POST',
+            data: { usuario_id: userID },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    const perfil = response.perfil;
+                    // Asignar el nombre y el correo
+                    $("#nombre_usuario_perfil").val(perfil.nombre);
+                    $("#correo_perfil").val(perfil.correo);
+    
+                    // Si el apellido es null, asignamos un espacio vacío
+                    if (perfil.apellido) {
+                        $("#apellido_usuario_perfil").val(perfil.apellido);
+                    } else {
+                        $("#apellido_usuario_perfil").val('');
+                    }
+    
+                    // Si la foto existe, asignarla
+                    if (perfil.foto) {
+                        $(".foto_perfil img").attr("src", perfil.foto);
+                    }
+                } else {
+                    console.error("Error al cargar el perfil: " + response.error);
+                }
+            },
+            error: function () {
+                console.error("Error en la comunicación con el servidor.");
+            }
+        });
+    }
+    
+    
+    
     // Función para obtener el recetario y guardar su ID en sessionStorage
     function obtenerRecetario(userID) {
         $.ajax({
@@ -49,8 +88,8 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    sessionStorage.setItem('idU', response.session_id);
-                    obtenerRecetario(response.session_id); // Llamar para obtener el recetario
+                    sessionStorage.setItem('idU', response.usuario_id);
+                    obtenerRecetario(response.usuario_id); 
                     window.location.href = '../vista/sesion.html';
                 } else {
                     alert("Usuario o contraseña incorrectos");

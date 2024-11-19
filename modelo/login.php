@@ -41,8 +41,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $response['success'] = "La contraseña coincide";
                 // Establecer el ID de sesión en la sesión PHP
                 $_SESSION['user_id'] = $resultado['id'];
-                // Agregar el ID de sesión a la respuesta
-                $response['session_id'] = $_SESSION['user_id'];
+
+                // Ahora que tenemos el session_id, vamos a buscar el id del usuario en la tabla 'usuario'
+                $session_id = $_SESSION['user_id'];
+
+                // Consulta SQL para obtener solo el id del usuario en la tabla 'usuario'
+                $sql_usuario = "SELECT id FROM usuario WHERE sesion_id = :session_id";
+                $stmt_usuario = $db->prepare($sql_usuario);
+                $stmt_usuario->bindParam(":session_id", $session_id, PDO::PARAM_INT);
+
+                // Ejecutar la consulta para obtener el id del usuario
+                $stmt_usuario->execute();
+                $usuario = $stmt_usuario->fetch(PDO::FETCH_ASSOC);
+
+                // Verificar si se encontró el usuario en la tabla 'usuario'
+                if ($usuario) {
+                    $response['usuario_id'] = $usuario['id'];  // Solo agregar el ID de usuario a la respuesta
+                } else {
+                    $response['error'] = "No se encontró el usuario para la sesión actual.";
+                }
             } else {
                 // La contraseña no coincide
                 $response['error'] = "La contraseña no coincide";
