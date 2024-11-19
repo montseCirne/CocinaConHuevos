@@ -3,6 +3,19 @@ $(document).ready(function () {
     var userID = sessionStorage.getItem('idU');
     var recetarioID = sessionStorage.getItem('idRecetario');
 
+    const perfil = JSON.parse(sessionStorage.getItem("perfil"));
+
+    if (perfil) {
+        console.log("Perfil recuperado:", perfil);
+
+        // Asignar valores a los campos
+        $("#nombre_usuario_perfil").val(perfil.nombre);
+        $("#correo_perfil").val(perfil.correo);
+        $("#apellido_usuario_perfil").val(perfil.apellido || '');
+        $(".foto_perfil img").attr("src", perfil.foto || "./image/usuario.png");
+    } else {
+        console.error("No se encontró información del perfil en sessionStorage.");
+    }
 
     $('#Crear').on('click', function(event) {
         event.preventDefault(); // Evita el envío predeterminado del formulario
@@ -29,7 +42,9 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     const perfil = response.perfil;
-                    console.log(perfil.nombre);
+                    console.log(perfil);
+                    sessionStorage.setItem("perfil", JSON.stringify(perfil));
+                    console.log("Perfil guardado en sessionStorage:", perfil);
                     // Asignar el nombre y el correo
                     $("#nombre_usuario_perfil").val(perfil.nombre);
                     $("#correo_perfil").val(perfil.correo);
@@ -40,11 +55,12 @@ $(document).ready(function () {
                     } else {
                         $("#apellido_usuario_perfil").val('');
                     }
-    
-                    // Si la foto existe, asignarla
                     if (perfil.foto) {
                         $(".foto_perfil img").attr("src", perfil.foto);
+                    } else {
+                        $(".foto_perfil img").attr("src", "./image/usuario.png"); // Imagen por defecto
                     }
+                    
                 } else {
                     console.error("Error al cargar el perfil: " + response.error);
                 }
