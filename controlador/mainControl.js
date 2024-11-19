@@ -8,46 +8,58 @@ $(document).ready(function () {
     });
     if (userID && userID !== '0') {
         console.log("Se tiene una sesión abierta, ID de usuario: " + userID);
-        console.log("ID Recetario: " + recetarioID);
-        //window.location.href = '../vista/sesion.html';
+        if (!recetarioID || recetarioID === '0') {
+            obtenerRecetario(userID);
+        } else {
+            console.log("ID Recetario: " + recetarioID);
+        }
     } else {
         console.log("Usuario no autenticado o visitante");
     }
-    // Función para iniciar sesión
-    function iniciarSesion() {
-        var user = $("#correo").val().trim(); // Obtener el valor del correo
-        var c1 = $("#contrasena").val().trim(); // Obtener el valor de la contraseña
-        console.log("Intentando iniciar sesión");
+
+    // Función para obtener el recetario y guardar su ID en sessionStorage
+    function obtenerRecetario(userID) {
         $.ajax({
-            url: '../modelo/login.php', 
+            url: '../modelo/recuperarRecetario.php',
             method: 'POST',
-            data: {
-                user: user,
-                contrasena: c1
-            },
-            dataType: 'text', 
+            data: { usuario_id: userID },
+            dataType: 'json',
             success: function (response) {
-                try {
-                    response = JSON.parse(response);  
-                    if (response.success) {
-                        console.log("Inicio de sesión exitoso");
-                        sessionStorage.setItem('idU', response.session_id);
-                        window.location.href = '../vista/sesion.html';
-                        console.log("ID de sesión: " + response.session_id);
-                    } else {
-                        console.log("Error: " + response.error);
-                        alert("Usuario o contraseña incorrectos");
-                    }
-                } catch (e) {
-                    console.error("Error al parsear JSON:", e);
-                    alert("Error en la respuesta del servidor.");
+                if (response.success) {
+                    sessionStorage.setItem('idRecetario', response.recetario.id); 
+                    console.log("ID Recetario guardado: " + response.recetario.id);
+                } else {
+                    console.error("Error al obtener el recetario: " + response.error);
+                }
+            },
+            error: function () {
+                console.error("Error en la comunicación con el servidor.");
+            }
+        });
+    }
+
+    // Función para manejar el inicio de sesión (ya implementada en tu código)
+    function iniciarSesion() {
+        var user = $("#correo").val().trim();
+        var c1 = $("#contrasena").val().trim();
+        $.ajax({
+            url: '../modelo/login.php',
+            method: 'POST',
+            data: { user: user, contrasena: c1 },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    sessionStorage.setItem('idU', response.session_id);
+                    obtenerRecetario(response.session_id); // Llamar para obtener el recetario
+                    window.location.href = '../vista/sesion.html';
+                } else {
+                    alert("Usuario o contraseña incorrectos");
                 }
             },
             error: function () {
                 alert("Error al tratar de enviar datos");
             }
-        }); 
-               
+        });
     }
 
     // Asignar la función al evento de clic en el botón de envío del formulario
@@ -70,6 +82,7 @@ $(document).ready(function () {
     window.cerrarSesion = function() {
         sessionStorage.clear();
         sessionStorage.setItem('idU', '0');
+        sessionStorage.setItem('idRecetario', '0');
         console.log("Se ha cerrado sesión");
         window.location.href = '../vista/index.html'; // Redirigir al inicio
     };
