@@ -29,6 +29,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     const perfil = response.perfil;
+                    console.log(perfil.nombre);
                     // Asignar el nombre y el correo
                     $("#nombre_usuario_perfil").val(perfil.nombre);
                     $("#correo_perfil").val(perfil.correo);
@@ -59,10 +60,10 @@ $(document).ready(function () {
     // Función para obtener el recetario y guardar su ID en sessionStorage
     function obtenerRecetario(userID) {
         $.ajax({
-            url: '../modelo/recuperarRecetario.php',
-            method: 'POST',
-            data: { usuario_id: userID },
-            dataType: 'json',
+            url: '../modelo/recuperarRecetario.php',  // Asegúrate de que la URL es correcta
+            method: 'POST',  // Verifica que sea POST
+            data: { usuario_id: userID },  // Enviar el ID de usuario
+            dataType: 'json',  // Esperamos una respuesta JSON
             success: function (response) {
                 if (response.success) {
                     sessionStorage.setItem('idRecetario', response.recetario.id); 
@@ -71,11 +72,10 @@ $(document).ready(function () {
                     console.error("Error al obtener el recetario: " + response.error);
                 }
             },
-            error: function () {
-                console.error("Error en la comunicación con el servidor.");
-            }
+            
         });
     }
+    
 
     // Función para manejar el inicio de sesión (ya implementada en tu código)
     function iniciarSesion() {

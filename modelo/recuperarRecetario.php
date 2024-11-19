@@ -2,6 +2,7 @@
 include_once "db.php";
 
 // Configuración de cabeceras para JSON
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
