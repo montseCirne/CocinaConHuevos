@@ -38,42 +38,27 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Plato fuerte</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="comida">Comida</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Postres</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="postre">Postres</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sopas</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="sopa">Sopas</a>
                         </li>
-
-                        <!-- Agregarlo pero en un boton en la seccion de los datos del usuario -->
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">Mis recetas</a>
-                        </li> -->
+                        <li class="nav-item">
+                            <a class="categoria-tab" href="#productos" data-categoria="ensalada">Ensaladas</a>
+                        </li>
                     </ul>
-
-                    
                     <form class="d-flex mt-3" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar receta" aria-label="Search">
                         <button class="btn btn-warning" type="submit">Buscar</button>
-                        
                     </form>
-
-                    <br>
-                    <br>
-                    <!-- <a href="#" class="btn btn-danger btn-sm" id="boton_cerra_sesion">Cerrar sesión</a> -->
-                    <a href="../index.html"><button class="btn btn-danger" id="boton_cerrar_sesion" type="button">Mis recetas</button></a>
-                    
+                    <button class="btn btn-danger" id="boton_cerrar_sesion" type="button" onclick="cerrarSesion()">Cerrar Sesiion</button></a>
                 </div>
             </div>
         </div>
-    </nav>
-    <br>
-    <br>
-    <br>
-
+    </nav>    <br>    <br>    <br>
     <div class="container">
         <br>
         <br>
@@ -81,66 +66,49 @@
             <div class="col-lg-2 col-sm-12">
                 <!-- COLUMNA DE AYUDA -->
             </div>
-
             <div class="col-lg-8 col-sm-12">
                 <div class="row"></div>
                     <!-- Formualrio -->
                     <div>
-                        
                         <h1 class="titulo_agregar_receta">Mi perfil</h1>
                         <br>
                         <div class="foto_perfil">
                             <img src="../usuario.png" alt="huevo_icon" >
                         </div>
                         <br>
-
                         <form class="formulario_receta">
                             <!-- NOMBRE DE RECETA -->
                             <div class="">
                               <label for="exampleInputEmail1" class="form-label">Nombre</label>
                               <input type="text" class="form-control" id="nombre_usuario_perfil" aria-describedby="emailHelp" placeholder="Nombre de usuario" required>
-                            </div><br>
-                            
+                            </div><br>                            
                             <!-- NOMBRE DE RECETA -->
                             <div class="">
                                 <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
                                 <input type="text" class="form-control" id="correo_perfil" aria-describedby="emailHelp" placeholder="Correo electronico" required>
                             </div><br>
-
                             <!-- NOMBRE DE RECETA -->
                             <div class="">
                                 <label for="exampleInputEmail1" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control" id="correo_perfil" aria-describedby="emailHelp" placeholder="Contraseña" required>
                             </div><br>
-
                             <!-- IMAGEN DE USUARIO -->
                             <div class="mb-3">
                               <label for="imagen_receta" class="form-label">Foto de perfil</label>
                               <input type="file" class="form-control" id="imagen_receta" aria-describedby="emailHelp" placeholder="Imagen de al receta" required>
                             </div>
-    
-                            
                             <a href="addRecipe.html"><button class="btn btn-warning" id="boton_cerrar_se" type="button">Mis recetas</button></a>
-                            
-                            
                         </form>
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-2">
                 <!-- COLUMNA DE AYUDA -->
             </div>
-
-            
-
-
-
         <!-- FIN RENGLON -->
         </div>
     <!-- FIN CONTENEDOR -->
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
@@ -152,5 +120,4 @@
         crossorigin="anonymous"></script>
     <script src="../controlador/mainControl.js"></script>
 </body>
-
 </html>

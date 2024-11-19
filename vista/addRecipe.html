@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +10,17 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" href="./image/huevo-frito.png" type="image/x-icon">
 </head>
-
 <body>
-
     <!-- BARRA DE NAVEGACION -->
-
     <!-- CONTENEDOR -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html"><img src="./image/huevo-frito.png" height="40px"> Cocina con Huevos</a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><a class="navbar-brand" href="index.html"><img src="./image/huevo-frito.png" height="40px"> Cocina con Huevos</a></h5>
@@ -34,57 +28,43 @@
                         aria-label="Close">
                     </button>
                 </div>
-
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Plato fuerte</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="comida">Comida</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Postres</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="postre">Postres</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Sopas</a>
+                            <a class="categoria-tab" href="#productos" data-categoria="sopa">Sopas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="categoria-tab" href="#productos" data-categoria="ensalada">Ensaladas</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="profile.html">Mi perfil</a>
                         </li>
                     </ul>
-
-                    
                     <form class="d-flex mt-3" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar receta" aria-label="Search">
                         <button class="btn btn-warning" type="submit">Buscar</button>
                         
-                    </form>
-
-                    <br>
-                    <br>
-                    <!-- <a href="#" class="btn btn-danger btn-sm" id="boton_cerra_sesion">Cerrar sesión</a> -->
-                    <a href="../index.html"><button class="btn btn-danger" id="boton_cerrar_sesion" type="button">Cerrar sesión</button></a>
-                    
+                    </form><br><br>
+                    <button class="btn btn-danger" id="boton_cerrar_sesion" type="button" onclick="cerrarSesion()">Cerrar sesión</button>
                 </div>
             </div>
         </div>
-    </nav>
-    <br>
-    <br>
-    <br>
-
-    <div class="container">
-        <br>
-        <br>
+    </nav>    <br>    <br>    <br>
+    <div class="container">        <br>        <br>
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="row">
                     <!-- Formualrio -->
                     <div>
-                        <h2 class="titulo_agregar_receta">Agregar nueva receta</h2>
-                        <br>
-                        <br>
-                        <form class="formulario_receta">
+                        <h2 class="titulo_agregar_receta">Agregar nueva receta</h2> <br> <br>
+                        <form class="formulario_receta" id="recetaForm" enctype="multipart/form-data">
                             <!-- NOMBRE DE RECETA -->
                             <div class="">
                               <label for="exampleInputEmail1" class="form-label">Nombre de la receta</label>
@@ -94,25 +74,24 @@
                                 <label for="categoria">Categoría:</label>
                                 <select id="categoria" name="categoria" required>
                                     <option value="">Seleccionar categoría</option>
-                                    <!-- Opciones se llenarán dinámicamente desde la base de datos -->
+                                    <option value="comida">Comida</option>
+                                    <option value="postre">Postre</option>
+                                    <option value="sopa">Sopa</option>
+                                    <option value="ensalada">Ensalada</option>
                                 </select>
                             </div><br>
-
                             <!-- IMAGEN DE RECETA -->
                             <div class="mb-3">
-                                <label for="imagen_receta" class="form-label">Tiempo de coccion</label>
+                                <label  class="form-label">Tiempo de coccion</label>
                                 <input type="text" class="form-control" id="tiempo_coccion" aria-describedby="emailHelp" placeholder="Tiempo de cocción" required>
                             </div>
-
                             <!-- IMAGEN DE RECETA -->
                             <div class="mb-3">
                               <label for="imagen_receta" class="form-label">Imagen de la receta</label>
-                              <input type="file" class="form-control" id="imagen_receta" aria-describedby="emailHelp" placeholder="Imagen de al receta" required>
+                              <input type="file" class="form-control" id="imagen_receta" name="foto" aria-describedby="emailHelp" placeholder="Imagen de al receta" required>
                             </div>
-
                             <!-- INGREDIENTES -->
                             <textarea class="form-control" placeholder="Ingredientes" id="Ingredientes"></textarea><br>
-
                             <!-- MODO DE PREPARACION -->
                             <textarea class="form-control" placeholder="Modo de preparacion" id="modo_preparacion"></textarea><br>
                             <button type="submit" class="btn btn-warning" id="guardar_receta">Guardar Receta</button>
@@ -120,37 +99,17 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-6 col-sm-12">
                 <div class="row">
                     <div class="col">
                         <div class="">
-                            <h2 class="titulo_agregar_receta">Mis recetas</h2><br><br>
-
+                            <h2 class="titulo_agregar_receta">Mis recetas</h2>
                             <!-- RENGLON PARA LAS RECETAS HECHAS POR EL CLIENTE -->
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="card mis_recetas" style="width: 17rem;">
-                                        <img src="./image/huevos-rancheros.jpg" class="card-img-top imagen_receta" alt="IMAGEN" id="imagen">
-                                        <div class="card-body">
-                                            <h5 class="card-title" id="titulo"></h5>
-                                            <p class="card-text" id="descripcion">Some quick example text to build on the card title and make up the bulk of
-                                                the card's content.</p>
-                                            <a href="recipe_details.html" class="btn btn-warning" id="boton_detalles">Ver detalles</a><br><br>
-                                            <a href="#" class="btn btn-danger" id="boton_detalles">Eliminar</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="card mis_recetas" style="width: 17rem;">
-                                        <img src="./image/huevos-rancheros.jpg" class="card-img-top imagen_receta" alt="IMAGEN" id="imagen">
-                                        <div class="card-body">
-                                            <h5 class="card-title" id="titulo"></h5>
-                                            <p class="card-text" id="descripcion">Some quick example text to build on the card title and make up the bulk of
-                                                the card's content.</p>
-                                            <a href="#" class="btn btn-warning" id="boton_detalles">Ver detalles</a><br><br>
-                                            <a href="#" class="btn btn-danger" id="boton_detalles">Eliminar</a>
+                                <div class="container" id="productos">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div id="Cartas" class="cards-container"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -160,11 +119,6 @@
                     </div>
                 </div>
             </div>
-
-            
-
-
-
         <!-- FIN RENGLON -->
         </div>
     <!-- FIN CONTENEDOR -->
@@ -181,6 +135,8 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="script.js"></script>
+    <script src="../controlador/mainControl.js"></script>
+    
 </body>
 
 </html>

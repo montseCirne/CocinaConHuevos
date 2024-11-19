@@ -2,9 +2,6 @@ var userID = sessionStorage.getItem('idU');
 var recetarioID = sessionStorage.getItem('idRecetario');
 
 $(document).ready(function () {
-    //$("#Crear").on("click", function () {
-        //valida();
-    //});
     $('#Crear').on('click', function(event) {
         event.preventDefault(); // Evita el envío predeterminado del formulario
         verificarCorreoExistente();
@@ -16,7 +13,6 @@ $(document).ready(function () {
     } else {
         console.log("Usuario no autenticado o visitante");
     }
-
     // Función para iniciar sesión
     function iniciarSesion() {
         var user = $("#correo").val().trim(); // Obtener el valor del correo
@@ -152,4 +148,29 @@ $(document).ready(function () {
         }
     }
 
+});
+$(document).ready(function () {
+    $("#recetaForm").on("submit", function (e) {
+        e.preventDefault(); 
+        var formData = new FormData(this); 
+        $.ajax({
+            url: '../modelo/nuevaReceta.php', 
+            method: 'POST',
+            data: formData,
+            dataType: 'json',
+            contentType: false,  // No enviar el tipo de contenido
+            processData: false,  // No procesar los datos
+            success: function (response) {
+                if (response.success) {
+                    alert("Receta guardada exitosamente.");
+                    
+                } else {
+                    alert("Error: " + response.error);
+                }
+            },
+            error: function () {
+                alert("Ocurrió un error al guardar la receta.");
+            }
+        });
+    });
 });
