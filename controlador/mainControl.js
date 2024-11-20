@@ -218,6 +218,45 @@ $(document).ready(function () {
         }
     }
 
+    $('#Actualizar').on('click', function () {
+        const userID = sessionStorage.getItem('idU');
+        const sesionID = sessionStorage.getItem('idSesion');
+        const nombre = $('#nombre_usuario_perfil').val().trim();
+        const apellido = $('#apellido_usuario_perfil').val().trim();
+        const correo = $('#correo_perfil').val().trim();
+        const contrasena = $('#contrasena_perfil').val().trim();
+    
+        if (!userID || !sesionID) {
+            alert("Error: No se encontraron las credenciales del usuario.");
+            return;
+        }
+    
+        $.ajax({
+            url: '../modelo/actualizarInfo.php',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                userID,
+                sesionID,
+                nombre,
+                apellido,
+                correo,
+                contrasena
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                } else {
+                    alert("Error: " + response.error);
+                }
+            },
+            error: function () {
+                alert("Error en la solicitud. Por favor, intenta de nuevo.");
+            }
+        });
+    });
+    
+
 });
 $(document).ready(function () {
     $("#recetaForm").on("submit", function (e) {

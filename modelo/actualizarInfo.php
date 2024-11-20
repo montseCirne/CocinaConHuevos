@@ -1,48 +1,70 @@
 <?php
-include_once "db.php";
-
-// Configuración de cabeceras para JSON
+include_once "db.php"; 
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
 
-// Array para almacenar la respuesta
 $response = array();
 
-// Verificar si la solicitud es de tipo POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener el ID del usuario enviado desde el frontend
-    $usuarioId = $_POST['usuario_id'];
+    // Recuperar datos enviados desde el cliente
+    $userID = $_POST['userID'] ?? null;
+    $sesionID = $_POST['sesionID'] ?? null;
+    $nombre = $_POST['nombre'] ?? null;
+    $apellido = $_POST['apellido'] ?? null;
+    $correo = $_POST['correo'] ?? null;
+    $contrasena = $_POST['contrasena'] ?? null;
 
-    try {
-        // Consulta para obtener el recetario del usuario
-        $stmtRecetario = $db->prepare("SELECT * FROM recetario WHERE usuario_id = :usuario_id");
-        $stmtRecetario->bindParam(":usuario_id", $usuarioId, PDO::PARAM_INT);
-        $stmtRecetario->execute();
+    if ($userID && $sesionID) {
+        try {
+            
+            $db->beginTransaction();
 
-        // Verificar si se encontró el recetario
-        if ($stmtRecetario->rowCount() > 0) {
-            $recetario = $stmtRecetario->fetch(PDO::FETCH_ASSOC);
+            // Actualizar los datos en la tabla `usuario`
+            if ($nombre || $apellido) {
+                $sql_usuario = "UPDATE usuario 
+                                SET nombre = COALESCE(:nombre, nombre), 
+                                    apellido = COALESCE(:apellido, apellido)
+                                WHERE id = :userID";
+                $stmt_usuario = $db->prepare($sql_usuario);
+                $stmt_usuario->bindParam(":nombre", $nombre);
+                $stmt_usuario->bindParam(":apellido", $apellido);
+                $stmt_usuario->bindParam(":userID", $userID, PDO::PARAM_INT);
+                $stmt_usuario->execute();
+            }
 
-            // Respuesta de éxito con los datos del recetario
+            // Actualizar los datos en la tabla `sesion`
+            if ($correo || $contrasena) {
+                $sql_sesion = "UPDATE sesion 
+                               SET correo = COALESCE(:correo, correo), 
+                                   contraseña = COALESCE(:contrasena, contraseña)
+                               WHERE id = :sesionID";
+                $stmt_sesion = $db->prepare($sql_sesion);
+                $stmt_sesion->bindParam(":correo", $correo);
+                $stmt_sesion->bindParam(":contrasena", $contrasena);
+                $stmt_sesion->bindParam(":sesionID", $sesionID, PDO::PARAM_INT);
+                $stmt_sesion->execute();
+            }
+
+            // Confirmar la transacción
+            $db->commit();
+
             $response['success'] = true;
-            $response['recetario'] = $recetario;
-        } else {
-            // No se encontró el recetario
+            $response['message'] = "Perfil actualizado correctamente.";
+        } catch (Exception $e) {
+            // Revertir cambios en caso de error
+            $db->rollBack();
             $response['success'] = false;
-            $response['error'] = "No se encontró un recetario para este usuario.";
+            $response['error'] = "Error al actualizar perfil: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        // Error en la base de datos
-        $response['error'] = "Error al recuperar el recetario: " . $e->getMessage();
-        error_log($e->getMessage());
+    } else {
+        $response['success'] = false;
+        $response['error'] = "Faltan parámetros requeridos.";
     }
 } else {
-    // Método de solicitud no válido
-    $response['error'] = "Error: Método de solicitud no válido.";
+    $response['success'] = false;
+    $response['error'] = "Método no permitido.";
 }
 
-// Enviar la respuesta como JSON
 echo json_encode($response);
-
 ?>
