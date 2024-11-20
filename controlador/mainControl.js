@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     var userID = sessionStorage.getItem('idU');
     var recetarioID = sessionStorage.getItem('idRecetario');

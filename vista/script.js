@@ -39,8 +39,8 @@ const generateCards = (products) => {
                         <span class="card-title">${product.nombre}</span>
                     </div>
                     <div class="card-content">
-                        <button class="btn btn-warning" data-product-id="${product.id}">Ver ingredientes</button>
-                        <button class="btn btn-warning" data-product-id="${product.id}">¡A cocinar!</button>
+                        <button class="btn btn-warning" data-product-id="${product.id}">Editar</button>
+                        <button class="btn btn-warning" data-product-id="${product.id}">Ver detalles</button>
                     </div>
                 </div>
             </div>`;
