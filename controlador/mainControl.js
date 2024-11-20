@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var userID = sessionStorage.getItem('idU');
     var recetarioID = sessionStorage.getItem('idRecetario');
+    var sesionID = sessionStorage.getItem('idSesion');
 
     const perfil = JSON.parse(sessionStorage.getItem("perfil"));
 
@@ -22,6 +23,7 @@ $(document).ready(function () {
     });
     if (userID && userID !== '0') {
         console.log("Se tiene una sesión abierta, ID de usuario: " + userID);
+        console.log("ID de sesion: " + userID);
         if (!recetarioID || recetarioID === '0') {
             obtenerRecetario(userID);
             cargarPerfil(userID);
