@@ -262,17 +262,20 @@ $(document).ready(function () {
     $("#recetaForm").on("submit", function (e) {
         e.preventDefault(); 
         var formData = new FormData(this); 
+        console.log(formData);
         $.ajax({
             url: '../modelo/nuevaReceta.php', 
             method: 'POST',
             data: formData,
             dataType: 'json',
-            contentType: false,  // No enviar el tipo de contenido
-            processData: false,  // No procesar los datos
+            contentType: false,  
+            processData: false,
             success: function (response) {
+                console.log(formData);
                 if (response.success) {
                     alert("Receta guardada exitosamente.");
-                    
+                    console.log(formData);
+                    document.getElementById("recetaForm").reset();
                 } else {
                     alert("Error: " + response.error);
                 }

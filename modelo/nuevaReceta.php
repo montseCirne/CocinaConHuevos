@@ -16,9 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
         $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
         $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : '';
+        $tiempo = isset($_POST['tiempo']) ? $_POST['tiempo'] : '';
+        $ingredientes = isset($_POST['ingredientes']) ? $_POST['ingredientes'] : '';
 
         // Preparar la consulta SQL para insertar la receta
-        $sql = "INSERT INTO receta (nombre, foto, descripcion, categoria) VALUES (:nombre, :foto, :descripcion, :categoria)";
+        $sql = "INSERT INTO receta (nombre, foto, descripcion, categoria, tiempo, ingredientes) 
+        VALUES (:nombre, :foto, :descripcion, :categoria, :tiempo, :ingredientes)";
 
         try {
             // Preparar la consulta
@@ -29,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':foto', $fotoContenido, PDO::PARAM_LOB);
             $stmt->bindParam(':descripcion', $descripcion);
             $stmt->bindParam(':categoria', $categoria);
+            $stmt->bindParam(':tiempo', $tiempo);
+            $stmt->bindParam(':ingredientes', $ingredientes);
 
             // Ejecutar la consulta
             if ($stmt->execute()) {

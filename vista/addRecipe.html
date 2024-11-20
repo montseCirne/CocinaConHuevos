@@ -67,11 +67,12 @@
                     <div>
                         <h2 class="titulo_agregar_receta">Agregar nueva receta</h2> <br> <br>
                         <form class="formulario_receta" id="recetaForm" enctype="multipart/form-data">
-                            <!-- NOMBRE DE RECETA -->
-                            <div class="">
-                              <label for="exampleInputEmail1" class="form-label">Nombre de la receta</label>
-                              <input type="text" class="form-control" id="nombre_usuario_registro" name="nombre" aria-describedby="emailHelp" placeholder="Nombre de receta" required>
+                            <!-- Nombre de receta -->
+                            <div>
+                                <label for="nombre" class="form-label">Nombre de la receta</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de receta" required>
                             </div><br>
+                            <!-- Categoría -->
                             <div>
                                 <label for="categoria">Categoría:</label>
                                 <select id="categoria" name="categoria" required>
@@ -82,22 +83,28 @@
                                     <option value="ensalada">Ensalada</option>
                                 </select>
                             </div><br>
-                            <!-- IMAGEN DE RECETA -->
-                            <div class="mb-3">
-                                <label  class="form-label">Tiempo de coccion</label>
-                                <input type="text" class="form-control" id="tiempo_coccion" aria-describedby="emailHelp" placeholder="Tiempo de cocción" required>
-                            </div>
-                            <!-- IMAGEN DE RECETA -->
-                            <div class="mb-3">
-                              <label for="imagen_receta" class="form-label">Imagen de la receta</label>
-                              <input type="file" class="form-control" id="imagen_receta" name="foto" aria-describedby="emailHelp" placeholder="Imagen de al receta" required>
-                            </div>
-                            <!-- INGREDIENTES -->
-                            <textarea class="form-control" placeholder="Ingredientes" id="Ingredientes"></textarea><br>
-                            <!-- MODO DE PREPARACION -->
-                            <textarea class="form-control" placeholder="Modo de preparacion" id="modo_preparacion" name="descripcion"></textarea><br>
+                            <!-- Tiempo de cocción -->
+                            <div>
+                                <label for="tiempo" class="form-label">Tiempo de cocción</label>
+                                <input type="number" class="form-control" id="tiempo" name="tiempo" placeholder="Tiempo de cocción" required>
+                            </div><br>
+                            <!-- Imagen de receta -->
+                            <div>
+                                <label for="foto" class="form-label">Imagen de la receta</label>
+                                <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
+                            </div><br>
+                            <!-- Ingredientes -->
+                            <div>
+                                <label for="ingredientes" class="form-label">Ingredientes</label>
+                                <textarea class="form-control" id="ingredientes" name="ingredientes" placeholder="Ingredientes" required></textarea>
+                            </div><br>
+                            <!-- Modo de preparación -->
+                            <div>
+                                <label for="descripcion" class="form-label">Modo de preparación</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Modo de preparación" required></textarea>
+                            </div>   <br>
                             <button type="submit" class="btn btn-warning" id="guardar_receta">Guardar Receta</button>
-                        </form>
+                        </form>                        
                     </div>
                 </div>
             </div>
