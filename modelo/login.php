@@ -1,5 +1,4 @@
 <?php 
-session_start(); // Iniciar la sesión PHP
 include_once "db.php";
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
@@ -45,6 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Ahora que tenemos el session_id, vamos a buscar el id del usuario en la tabla 'usuario'
                 $session_id = $_SESSION['user_id'];
 
+                $response['session_id'] = $session_id;
+
                 // Consulta SQL para obtener solo el id del usuario en la tabla 'usuario'
                 $sql_usuario = "SELECT id FROM usuario WHERE sesion_id = :session_id";
                 $stmt_usuario = $db->prepare($sql_usuario);
@@ -56,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Verificar si se encontró el usuario en la tabla 'usuario'
                 if ($usuario) {
-                    $response['usuario_id'] = $usuario['id'];  // Solo agregar el ID de usuario a la respuesta
+                    $response['usuario_id'] = $usuario['id'];
                 } else {
                     $response['error'] = "No se encontró el usuario para la sesión actual.";
                 }

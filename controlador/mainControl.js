@@ -23,7 +23,7 @@ $(document).ready(function () {
     });
     if (userID && userID !== '0') {
         console.log("Se tiene una sesión abierta, ID de usuario: " + userID);
-        console.log("ID de sesion: " + userID);
+        console.log("ID de sesion: " + sesionID);
         if (!recetarioID || recetarioID === '0') {
             obtenerRecetario(userID);
             cargarPerfil(userID);
@@ -43,7 +43,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     const perfil = response.perfil;
-                    console.log(perfil);
+                    //console.log(perfil);
                     sessionStorage.setItem("perfil", JSON.stringify(perfil));
                     console.log("Perfil guardado en sessionStorage:", perfil);
                     // Asignar el nombre y el correo
@@ -106,6 +106,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     sessionStorage.setItem('idU', response.usuario_id);
+                    sessionStorage.setItem('idSesion', response.session_id);
                     obtenerRecetario(response.usuario_id); 
                     window.location.href = '../vista/sesion.html';
                 } else {
