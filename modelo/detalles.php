@@ -1,48 +1,41 @@
 <?php
-include_once "db.php"; // Asegúrate de tener una conexión válida a tu base de datos
+include_once "db.php";  
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
 
-$response = array();
+// Verificar si el método de la solicitud es GET y si se proporciona un ID
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['receta_id'])) {
+    $recetaId = $_GET['receta_id'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener el ID de la receta desde el cuerpo de la solicitud POST
-    $recetaId = isset($_POST['receta_id']) ? $_POST['receta_id'] : null;
-
-    // Verificar si el ID de receta está presente y es válido
-    if ($recetaId === null || $recetaId <= 0) {
-        $response['success'] = false;
-        $response['error'] = "ID de receta inválido o no proporcionado.";
-        echo json_encode($response);
-        exit;
-    }
+    // Preparar la consulta SQL para recuperar la receta
+    $sql = "SELECT nombre, foto, descripcion, categoria, tiempo, ingredientes 
+            FROM receta WHERE Id = :receta_id";
 
     try {
-        // Preparar la consulta para obtener los detalles de la receta
-        $stmtReceta = $db->prepare("SELECT * FROM receta WHERE Id = :receta_id");
-        $stmtReceta->bindParam(":receta_id", $recetaId, PDO::PARAM_INT);
-        $stmtReceta->execute();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':receta_id', $recetaId, PDO::PARAM_INT);
+        $stmt->execute();
 
-        // Verificar si se encontró la receta en la base de datos
-        if ($stmtReceta->rowCount() > 0) {
-            // Recuperar los detalles de la receta
-            $receta = $stmtReceta->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount() > 0) {
+            $receta = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Respuesta exitosa con los datos de la receta
-            $response['success'] = true;
-            $response['receta'] = $receta;
+            // Codificar la imagen BLOB como Base64
+            if ($receta['foto']) {
+                $receta['foto'] = 'data:image/jpeg;base64,' . base64_encode($receta['foto']);
+            }
+
+            echo json_encode([
+                'success' => true,
+                'receta' => $receta
+            ]);
         } else {
-            // No se encontró la receta
-            $response['success'] = false;
-            $response['error'] = "Receta no encontrada.";
+            echo json_encode(['success' => false, 'error' => 'Receta no encontrada.']);
         }
     } catch (PDOException $e) {
-        // Capturar errores de base de datos
-        $response['success'] = false;
-        $response['error'] = "Error de base de datos: " . $e->getMessage();
+        echo json_encode(['success' => false, 'error' => 'Error en la consulta: ' . $e->getMessage()]);
     }
-
-    // Enviar la respuesta como JSON
-    echo json_encode($response);
+} else {
+    echo json_encode(['success' => false, 'error' => 'Solicitud inválida o ID de receta no proporcionado.']);
 }
+?>

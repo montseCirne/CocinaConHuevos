@@ -10,6 +10,7 @@ $(document).ready(() => {
 
     $(document).on('click', '#ver-detalles', function () {
         const productId = $(this).data('product-id'); // Obtener el ID del producto
+        console.log(productId);
         fetchProductDetails(productId); // Obtener los detalles de la receta
     });
 });
@@ -57,7 +58,7 @@ const generateCards = (products) => {
 const fetchProductDetails = (productId) => {
     $.ajax({
         url: '../modelo/detalles.php', // Suponiendo que esta es la URL para obtener los detalles de la receta
-        method: 'POST',
+        method: 'GET',
         dataType: 'json',
         data: { receta_id: productId }, // Enviar el ID del producto como parámetro GET
         success: (response) => {
@@ -72,6 +73,7 @@ const fetchProductDetails = (productId) => {
         
         error: (jqXHR, textStatus, errorThrown) => {
             console.error('AJAX error: ', textStatus, errorThrown);
+            alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
         }
     });
 };
