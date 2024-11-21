@@ -259,10 +259,11 @@ $(document).ready(function () {
 
 });
 $(document).ready(function () {
+    var recetarioID = sessionStorage.getItem('idRecetario');
     $("#recetaForm").on("submit", function (e) {
         e.preventDefault(); 
         var formData = new FormData(this); 
-        console.log(formData);
+        formData.append("recetarioID", recetarioID);
         $.ajax({
             url: '../modelo/nuevaReceta.php', 
             method: 'POST',
