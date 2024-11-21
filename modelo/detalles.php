@@ -1,15 +1,11 @@
 <?php
-include_once "db.php"; // Incluye tu archivo de configuración de la base de datos
-
-// Configuración de cabeceras para JSON
+include_once "db.php";
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
 
-// Array para almacenar la respuesta
 $response = array();
 
-// Verificar si la solicitud es de tipo POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $recetaId = $_POST['receta_id'];
 

@@ -45,7 +45,7 @@ $(document).ready(function () {
             data: { receta_id: productId },  
             dataType: 'json',
             success: function(response) {
-                console.log("Respuesta del servidor:", response);  // Asegúrate de que se imprima correctamente en la consola
+                console.log("Respuesta del servidor:", response);  // Verifica lo que se recibe
                 if (response.success) {
                     const receta = response.receta;
                     sessionStorage.setItem("receta", JSON.stringify(receta));
@@ -58,8 +58,8 @@ $(document).ready(function () {
                 } else {
                     console.error("Error en la respuesta:", response.error);
                 }
-            }, 
-        });
+            },
+        });        
     }
     
     // Manejar el evento de clic en el botón de ver detalles
