@@ -52,3 +52,91 @@
 .card-content {
     flex-grow: 1;
 }
+
+
+.formulario_receta{
+    border: solid #c5c5c5 1px;
+    background-color: #dedede;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.formato_detalles{
+    border: solid #c5c5c5 1px;
+    background-color: #dedede;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.titulo_agregar_receta{
+    font-weight: bold;
+    text-align: center;
+}
+
+.mis_recetas{
+    margin-bottom: 30px;
+}
+
+.foto_perfil {
+    text-align: center;
+    
+}
+
+.foto_perfil img{
+    /* border: solid black 1px; */
+    height: 150px;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: #dedede;
+}
+
+
+.imagen img{
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    height: 400px;
+}
+
+.titulo_receta{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.titulo_receta h3{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+
+.tiempo{
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.tiempo h5{
+    font-weight: bold;
+}
+
+.ingredientes{
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.ingredientes h5{
+    font-weight: bold;
+}
+
+.descripcion{
+    text-align: center;
+    background-color: white;
+    margin-top:30px;
+    border-radius: 10px;
+}
+
+.descripcion h5{
+    font-weight: bold;
+}
+

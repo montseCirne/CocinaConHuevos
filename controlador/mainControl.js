@@ -7,7 +7,6 @@ $(document).ready(function () {
 
     if (perfil) {
         console.log("Perfil recuperado:", perfil);
-
         // Asignar valores a los campos
         $("#nombre_usuario_perfil").val(perfil.nombre);
         $("#correo_perfil").val(perfil.correo);
