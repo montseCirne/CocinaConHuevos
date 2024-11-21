@@ -1,30 +1,51 @@
 <?php
-include_once "db.php";
+include_once "db.php"; // Incluye tu archivo de configuración de la base de datos
 
+// Configuración de cabeceras para JSON
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
 
-try {
-    if (isset($_POST['id'])) {
-        $id = $_POST['id'];
-        
-        // Consulta SQL para obtener los detalles de la receta
-        $stmt = $db->prepare("SELECT * FROM receta WHERE id = :id");  // Cambié $pdo por $db
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($product) {
-            echo json_encode($product, JSON_UNESCAPED_UNICODE);
-        } else {
-            echo json_encode(['error' => 'Receta no encontrada']);
-        }
-    } else {
-        echo json_encode(['error' => 'ID de receta no válido']);
+// Array para almacenar la respuesta
+$response = array();
+
+// Verificar si la solicitud es de tipo POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $recetaId = $_POST['receta_id'];
+
+    // Verificar si el ID de receta está presente
+    if ($recetaId <= 0) {
+        $response['success'] = false;
+        $response['error'] = "ID de receta inválido.";
+        echo json_encode($response);
+        exit;
     }
-} catch (PDOException $e) {
-    echo json_encode(['error' => 'Error en la conexión a la base de datos: ' . $e->getMessage()]);
+
+    try {
+        // Consulta para obtener los datos de la receta
+        $stmtReceta = $db->prepare("SELECT * FROM receta WHERE Id = :receta_id");
+        $stmtReceta->bindParam(":receta_id", $recetaId, PDO::PARAM_INT);
+        $stmtReceta->execute();
+
+        // Verificar si se encontró una receta
+        if ($stmtReceta->rowCount() > 0) {
+            $receta = $stmtReceta->fetch(PDO::FETCH_ASSOC);
+
+            // Respuesta exitosa
+            $response['success'] = true;
+            $response['receta'] = $receta;
+        } else {
+            // No se encontró receta
+            $response['success'] = false;
+            $response['error'] = "Receta no encontrada.";
+        }
+    } catch (PDOException $e) {
+        // Error en la consulta SQL
+        $response['success'] = false;
+        $response['error'] = "Error de base de datos: " . $e->getMessage();
+    }
+
+    // Enviar la respuesta como JSON
+    echo json_encode($response);
 }
 ?>

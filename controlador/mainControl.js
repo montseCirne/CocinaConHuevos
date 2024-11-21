@@ -4,6 +4,7 @@ $(document).ready(function () {
     var sesionID = sessionStorage.getItem('idSesion');
 
     const perfil = JSON.parse(sessionStorage.getItem("perfil"));
+    const receta = JSON.parse(sessionStorage.getItem("receta"));
 
     if (perfil) {
         console.log("Perfil recuperado:", perfil);
@@ -34,29 +35,40 @@ $(document).ready(function () {
         console.log("Usuario no autenticado o visitante");
     }
 
-    $('#Cartas').on('click', '#ver-detalles', function () {
-        const productId = $(this).data('product-id');
-        console.log('Product ID:', productId);
+    
+    function cargarReceta(productId) {
+        var rec = productId.toString();
+        console.log("ESTE ES UNO: "+rec);
         $.ajax({
             url: '../modelo/detalles.php',  
             method: 'POST',  
-            data: { id: productId },  
-            dataType: 'json', 
-            success: function (response) {
+            data: { receta_id: productId },  
+            dataType: 'json',
+            success: function(response) {
+                console.log("Respuesta del servidor:", response);  // Asegúrate de que se imprima correctamente en la consola
                 if (response.success) {
-                    $('#imagenR').html(`<img src="${response.data.imagen}"`);
-                    $('#nombreR').html(response.data.nombre);
-                    $('#tiempoR').html(`${response.data.tiempo} minutos`);
-                    $('#ingredientesR').html(response.data.ingredientes);
-                    $('#descripcionR').html(response.data.descripcion);
-                    window.location.href = '../vista/recipe_details.html';
+                    const receta = response.receta;
+                    sessionStorage.setItem("receta", JSON.stringify(receta));
+                    console.log("Receta guardada en sessionStorage:", receta);
+                    $("#nombreR").val(receta.nombre);
+                    $("#descripcionR").val(receta.descripcion);
+                    $("#categoriaR").val(receta.categoria);
+                    $("#tiempoR").val(receta.tiempo);
+                    $("#ingredientesR").val(receta.ingredientes);
                 } else {
-                    console.error("Error al obtener el Id de receta: " + response.error);
+                    console.error("Error en la respuesta:", response.error);
                 }
-            },
-        }); 
+            }, 
+        });
+    }
+    
+    // Manejar el evento de clic en el botón de ver detalles
+    $('#Cartas').on('click', '#ver-detalles', function () {
+        const productId = $(this).data('product-id');
+        console.log("Enviando receta ID: ", productId);
+        cargarReceta(productId); 
     });
-
+    
 
     function cargarPerfil(userID) {
         $.ajax({
