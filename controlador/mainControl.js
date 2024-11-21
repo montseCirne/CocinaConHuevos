@@ -4,7 +4,6 @@ $(document).ready(function () {
     var sesionID = sessionStorage.getItem('idSesion');
 
     const perfil = JSON.parse(sessionStorage.getItem("perfil"));
-    const receta = JSON.parse(sessionStorage.getItem("receta"));
 
     if (perfil) {
         console.log("Perfil recuperado:", perfil);
@@ -22,6 +21,7 @@ $(document).ready(function () {
         event.preventDefault(); // Evita el envío predeterminado del formulario
         verificarCorreoExistente();
     });
+
     if (userID && userID !== '0') {
         console.log("Se tiene una sesión abierta, ID de usuario: " + userID);
         console.log("ID de sesion: " + sesionID);
@@ -36,38 +36,32 @@ $(document).ready(function () {
     }
 
     
-    function cargarReceta(productId) {
-        var rec = productId.toString();
-        console.log("ESTE ES UNO: "+rec);
-        $.ajax({
-            url: '../modelo/detalles.php',  
-            method: 'POST',  
-            data: { receta_id: productId },  
-            dataType: 'json',
-            success: function(response) {
-                console.log("Respuesta del servidor:", response);  // Verifica lo que se recibe
-                if (response.success) {
-                    const receta = response.receta;
-                    sessionStorage.setItem("receta", JSON.stringify(receta));
-                    console.log("Receta guardada en sessionStorage:", receta);
-                    $("#nombreR").val(receta.nombre);
-                    $("#descripcionR").val(receta.descripcion);
-                    $("#categoriaR").val(receta.categoria);
-                    $("#tiempoR").val(receta.tiempo);
-                    $("#ingredientesR").val(receta.ingredientes);
-                } else {
-                    console.error("Error en la respuesta:", response.error);
-                }
-            },
-        });        
-    }
-    
-    // Manejar el evento de clic en el botón de ver detalles
-    $('#Cartas').on('click', '#ver-detalles', function () {
-        const productId = $(this).data('product-id');
-        console.log("Enviando receta ID: ", productId);
-        cargarReceta(productId); 
-    });
+    // function cargarReceta(productId) {
+    //     var rec = productId.toString();
+    //     console.log("ESTE ES UNO: "+rec);
+    //     $.ajax({
+    //         url: '../modelo/detalles.php',  
+    //         method: 'POST',  
+    //         data: { receta_id: productId },  
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             console.log("Respuesta del servidor:", response);  // Verifica lo que se recibe
+    //             if (response.success) {
+    //                 const receta = response.receta;
+    //                 sessionStorage.setItem("receta", JSON.stringify(receta));
+    //                 console.log("Receta guardada en sessionStorage:", receta);
+    //                 $("#nombreR").val(receta.nombre);
+    //                 $("#descripcionR").val(receta.descripcion);
+    //                 $("#categoriaR").val(receta.categoria);
+    //                 $("#tiempoR").val(receta.tiempo);
+    //                 $("#ingredientesR").val(receta.ingredientes);
+    //             } else {
+    //                 console.error("Error en la respuesta:", response.error);
+    //             }
+    //         },
+    //     });        
+    // }
+
     
 
     function cargarPerfil(userID) {
@@ -187,7 +181,6 @@ $(document).ready(function () {
         toggleSesion();
     });
     
-  
 
     function creaCuenta() {
         var nombre = $("#nombre_usuario_registro").val().trim();
@@ -216,7 +209,6 @@ $(document).ready(function () {
                     console.log("ID de recetario: " + response.recetario_id);
                     alert("Cuenta creada exitosamente. ID de usuario: " + response.id + ", ID de recetario: " + response.recetario_id);
                     window.location.href = 'loggin.html';  // Redirigir a la página de login
-                    
                 },
                 
             });

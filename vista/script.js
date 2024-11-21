@@ -7,6 +7,11 @@ $(document).ready(() => {
 
     // Cargar productos de la categoría por defecto (ejemplo: 'comida')
     fetchProducts("comida");
+
+    $(document).on('click', '#ver-detalles', function () {
+        const productId = $(this).data('product-id'); // Obtener el ID del producto
+        fetchProductDetails(productId); // Obtener los detalles de la receta
+    });
 });
 
 const fetchProducts = (categoria = null) => {
@@ -45,5 +50,28 @@ const generateCards = (products) => {
                 </div>
             </div>`;
         $('#Cartas').append(card); // Insertar la carta en el contenedor
+    });
+};
+
+// Función para obtener los detalles de una receta
+const fetchProductDetails = (productId) => {
+    $.ajax({
+        url: '../modelo/detalles.php', // Suponiendo que esta es la URL para obtener los detalles de la receta
+        method: 'POST',
+        dataType: 'json',
+        data: { receta_id: productId }, // Enviar el ID del producto como parámetro GET
+        success: (response) => {
+            console.log('Response from server:', response); // Agrega esto para ver la respuesta
+            if (response.error) {
+                console.error(response.error);
+            } else {
+                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(response));
+                console.log("Receta recuperada:", response);
+            }
+        },
+        
+        error: (jqXHR, textStatus, errorThrown) => {
+            console.error('AJAX error: ', textStatus, errorThrown);
+        }
     });
 };
