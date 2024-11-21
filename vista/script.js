@@ -76,4 +76,6 @@ const fetchProductDetails = (productId) => {
             alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
         }
     });
+    
 };
+

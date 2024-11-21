@@ -4,6 +4,7 @@ $(document).ready(function () {
     var sesionID = sessionStorage.getItem('idSesion');
 
     const perfil = JSON.parse(sessionStorage.getItem("perfil"));
+    const recetaData = JSON.parse(sessionStorage.getItem('recetaSeleccionada'));
 
     if (perfil) {
         console.log("Perfil recuperado:", perfil);
@@ -15,6 +16,13 @@ $(document).ready(function () {
         $(".foto_perfil img").attr("src", perfil.foto || "./image/usuario.png");
     } else {
         console.error("No se encontró información del perfil en sessionStorage.");
+    }
+
+    if (recetaData) {
+        $("#nombrR").val(perfil.nombre);
+        
+    } else {
+        console.error("No se encontraron datos de la receta en sessionStorage.");
     }
 
     $('#Crear').on('click', function(event) {
