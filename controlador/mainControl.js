@@ -34,26 +34,27 @@ $(document).ready(function () {
         console.log("Usuario no autenticado o visitante");
     }
 
-    $('.ver-detalles').on('click', function () {
-        const productId = $(this).data('product-id'); 
+    $('#Cartas').on('click', '#ver-detalles', function () {
+        const productId = $(this).data('product-id');
+        console.log('Product ID:', productId);
         $.ajax({
             url: '../modelo/detalles.php',  
             method: 'POST',  
-            data: { receta_id: productId },  
+            data: { id: productId },  
             dataType: 'json', 
             success: function (response) {
                 if (response.success) {
-                    $('#imagenR').html(`<img src="${response.data.imagen}" alt="${response.data.nombre}" class="img-fluid">`);
+                    $('#imagenR').html(`<img src="${response.data.imagen}"`);
                     $('#nombreR').html(response.data.nombre);
                     $('#tiempoR').html(`${response.data.tiempo} minutos`);
                     $('#ingredientesR').html(response.data.ingredientes);
                     $('#descripcionR').html(response.data.descripcion);
+                    window.location.href = '../vista/recipe_details.html';
                 } else {
-                    console.error("Error al obtener el recetario: " + response.error);
+                    console.error("Error al obtener el Id de receta: " + response.error);
                 }
             },
-            
-        });
+        }); 
     });
 
 
