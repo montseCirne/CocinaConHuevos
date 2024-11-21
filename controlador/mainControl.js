@@ -12,6 +12,7 @@ $(document).ready(function () {
         $("#nombre_usuario_perfil").val(perfil.nombre);
         $("#correo_perfil").val(perfil.correo);
         $("#apellido_usuario_perfil").val(perfil.apellido || '');
+        $("#contrasena_perfil").val(perfil.contraseña);
         $(".foto_perfil img").attr("src", perfil.foto || "./image/usuario.png");
     } else {
         console.error("No se encontró información del perfil en sessionStorage.");
@@ -49,7 +50,7 @@ $(document).ready(function () {
                     // Asignar el nombre y el correo
                     $("#nombre_usuario_perfil").val(perfil.nombre);
                     $("#correo_perfil").val(perfil.correo);
-    
+                    $("#contrasena_perfil").val(perfil.contraseña);
                     // Si el apellido es null, asignamos un espacio vacío
                     if (perfil.apellido) {
                         $("#apellido_usuario_perfil").val(perfil.apellido);
