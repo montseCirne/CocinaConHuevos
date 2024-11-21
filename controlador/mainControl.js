@@ -34,6 +34,29 @@ $(document).ready(function () {
         console.log("Usuario no autenticado o visitante");
     }
 
+    $('.ver-detalles').on('click', function () {
+        const productId = $(this).data('product-id'); 
+        $.ajax({
+            url: '../modelo/detalles.php',  
+            method: 'POST',  
+            data: { receta_id: productId },  
+            dataType: 'json', 
+            success: function (response) {
+                if (response.success) {
+                    $('#imagenR').html(`<img src="${response.data.imagen}" alt="${response.data.nombre}" class="img-fluid">`);
+                    $('#nombreR').html(response.data.nombre);
+                    $('#tiempoR').html(`${response.data.tiempo} minutos`);
+                    $('#ingredientesR').html(response.data.ingredientes);
+                    $('#descripcionR').html(response.data.descripcion);
+                } else {
+                    console.error("Error al obtener el recetario: " + response.error);
+                }
+            },
+            
+        });
+    });
+
+
     function cargarPerfil(userID) {
         $.ajax({
             url: '../modelo/recuperarInfo.php',

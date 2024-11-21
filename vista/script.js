@@ -40,7 +40,7 @@ const generateCards = (products) => {
                     </div>
                     <div class="card-content">
                         <button class="btn btn-warning" data-product-id="${product.id}">Editar</button>
-                        <button class="btn btn-warning" data-product-id="${product.id}">Ver detalles</button>
+                        <button class="btn btn-warning ver-detalles" data-product-id="${product.id}">Ver detalles</button>
                     </div>
                 </div>
             </div>`;
