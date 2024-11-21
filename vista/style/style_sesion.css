@@ -53,9 +53,19 @@
 }
 
 .card-content {
-    flex-grow: 1;
-    display: flex;
+    /* flex-grow: 1;
+    display: flex; */
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+}
+
+.botones button{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+form .form-control,
+form .btn {
+    height: 100%; /* Ambos tendrán la misma altura */
 }

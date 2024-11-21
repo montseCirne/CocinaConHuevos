@@ -38,7 +38,7 @@ const generateCards = (products) => {
                         <img src="${product.foto}" alt="${product.nombre}">
                         <span class="card-title">${product.nombre}</span>
                     </div>
-                    <div class="card-content">
+                    <div class="card-content botones">
                         <button class="btn btn-warning" data-product-id="${product.id}">Editar</button>
                         <button class="btn btn-warning" data-product-id="${product.id}">Ver detalles</button>
                     </div>

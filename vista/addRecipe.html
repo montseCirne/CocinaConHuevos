@@ -15,7 +15,7 @@
     <!-- CONTENEDOR -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="./image/huevo-frito.png" height="40px"> Cocina con Huevos</a>
+            <a class="navbar-brand" href="sesion.html"><img src="./image/huevo-frito.png" height="40px"> Cocina con Huevos</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                 aria-label="Toggle navigation">
@@ -31,16 +31,16 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="categoria-tab" href="#productos" data-categoria="comida">Comida</a>
+                            <a class="categoria-tab nav-link" href="#productos" data-categoria="comida">Comida</a>
                         </li>
                         <li class="nav-item">
-                            <a class="categoria-tab" href="#productos" data-categoria="postre">Postres</a>
+                            <a class="categoria-tab nav-link" href="#productos" data-categoria="postre">Postres</a>
                         </li>
                         <li class="nav-item">
-                            <a class="categoria-tab" href="#productos" data-categoria="sopa">Sopas</a>
+                            <a class="categoria-tab nav-link" href="#productos" data-categoria="sopa">Sopas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="categoria-tab" href="#productos" data-categoria="ensalada">Ensaladas</a>
+                            <a class="categoria-tab nav-link" href="#productos" data-categoria="ensalada">Ensaladas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="addRecipe.html">Mis recetas</a>
@@ -49,12 +49,12 @@
                             <a class="nav-link" href="profile.html">Mi perfil</a>
                         </li>
                     </ul>
-                    <form class="d-flex mt-3" role="search">
+                    <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar receta" aria-label="Search">
-                        <button class="btn btn-warning" type="submit">Buscar</button>
+                        <button class="btn btn-warning" type="submit">Buscar</button>&nbsp;&nbsp;
                         
                     </form><br><br>
-                    <button class="btn btn-danger" id="boton_cerrar_sesion" type="button" onclick="cerrarSesion()">Cerrar sesión</button>
+                    <button class="btn btn-warning" id="boton_cerrar_sesion" type="button" onclick="cerrarSesion()">Cerrar sesión</button>
                 </div>
             </div>
         </div>
@@ -125,6 +125,7 @@
         </div>
     <!-- FIN CONTENEDOR -->
     </div>
+    <br><br>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
