@@ -15,9 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $ingredientes = $_POST['ingredientes'] ?? null;
 
     // Verificar si se envió una foto
-    $foto = isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK 
-        ? file_get_contents($_FILES['foto']['tmp_name']) 
-        : null;
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $foto = file_get_contents($_FILES['foto']['tmp_name']);
+    } else {
+        $foto = null; 
+        echo "No se ha subido una foto o ocurrió un error al subirla.";
+    }
+    
+    
 
     if ($recetaID) {
         try {
@@ -25,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Crear la consulta dinámica, excluyendo `foto` si no fue enviada
             $sql_receta = "UPDATE receta 
-                           SET nombre = COALESCE(:nombre, nombre), 
-                               descripcion = COALESCE(:descripcion, descripcion), 
-                               tiempo = COALESCE(:tiempo, tiempo), 
-                               ingredientes = COALESCE(:ingredientes, ingredientes)";
+               SET nombre = COALESCE(:nombre, nombre), 
+                   descripcion = COALESCE(:descripcion, descripcion), 
+                   tiempo = COALESCE(:tiempo, tiempo), 
+                   ingredientes = COALESCE(:ingredientes, ingredientes)";
             if ($foto !== null) {
                 $sql_receta .= ", foto = :foto"; 
             }
@@ -59,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $db->rollBack();
             $response['success'] = false;
             $response['error'] = "Error al actualizar receta: " . $e->getMessage();
+            error_log("Error al ejecutar la consulta: " . $e->getMessage());
         }
     } else {
         $response['success'] = false;

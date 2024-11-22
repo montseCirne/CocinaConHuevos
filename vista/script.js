@@ -126,27 +126,42 @@ const fetchProductEdit = (productId) => {
 };
 
 const fetchProductAct = (productId) => {
-    const formData = new FormData($('#recetaEdit')[0]);  
-    formData.append('id', productId);  
-    console.log(formData);
-
-    $.ajax({
-        url: '../modelo/actualizarReceta.php',
-        method: 'POST',
-        data: formData,
-        processData: false, 
-        contentType: false, 
-        success: (response) => {
-
-            if (response.success) {
-                alert('Receta actualizada con éxito.');
-            } else {
-                alert(response.message || 'Error al actualizar la receta.');
-            }
-        },
-        error: (jqXHR, textStatus, errorThrown) => {
-            console.error('Error al actualizar la receta:', textStatus, errorThrown);
-            alert('Hubo un problema al actualizar la receta.');
+    const recetaData = JSON.parse(sessionStorage.getItem('recetaSeleccionada')); 
+    if (recetaData) {
+        const formData = new FormData();
+        
+        formData.append('id', productId); 
+        formData.append('nombre', recetaData.nombre); 
+        formData.append('categoria', recetaData.categoria);
+        formData.append('tiempo_coccion', recetaData.tiempo_coccion);
+        formData.append('ingredientes', recetaData.ingredientes);
+        formData.append('descripcion', recetaData.descripcion);
+        
+        // Si hay una foto, agrégala al FormData
+        if (recetaData.foto) {
+            formData.append('foto', recetaData.foto); 
         }
-    });
+        console.log(formData);
+        $.ajax({
+            url: '../modelo/actualizarReceta.php',
+            method: 'POST',
+            data: formData,
+            processData: false, // No procesar los datos
+            contentType: false, // No establecer un tipo de contenido, ya que estamos enviando FormData
+            success: (response) => {
+                console.log("Respuesta del servidor: ", response);
+                if (response.success) {
+                    alert('Receta actualizada con éxito.');
+                } else {
+                    alert(response.message || 'Error al actualizar la receta.');
+                }
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                console.error('Error al actualizar la receta:', textStatus, errorThrown);
+                alert('Hubo un problema al actualizar la receta.');
+            }
+        });
+    } else {
+        alert("No se encontraron los datos de la receta.");
+    }
 };
