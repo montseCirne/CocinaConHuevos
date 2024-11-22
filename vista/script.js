@@ -95,7 +95,7 @@ const fetchProductEdit = (productId) => {
             } else {
                 sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
                 console.log("Receta recuperada:", rec);
-                window.location.href = 'addRecipe.html'; 
+                window.location.href = 'editRecipe.html'; 
             }
         },
         

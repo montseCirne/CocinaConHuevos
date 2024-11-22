@@ -22,7 +22,7 @@ $(document).ready(function () {
         console.log("Receta recuperada:", recetaData);
     
         $("#nombreR").val(recetaData.nombre);
-        $("#categoria").val(recetaData.categoria);
+        $("#categoria").val(recetaData.categoria).change();
         $("#tiempo").val(recetaData.tiempo);
         $("#ingredientes").val(recetaData.ingredientes); 
         $("#descripcion").val(recetaData.descripcion);
