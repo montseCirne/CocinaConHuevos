@@ -20,11 +20,21 @@ $(document).ready(function () {
 
     if (recetaData) {
         console.log("Receta recuperada:", recetaData);
+    
         $("#nombreR").val(recetaData.nombre);
         $("#tiempo").val(recetaData.tiempo);
+        $("#ingredientes").val(recetaData.ingredientes); 
+        $("#descripcion").val(recetaData.descripcion);
+    
+        if (recetaData.foto) {
+            $("#imagenR").attr("src", recetaData.foto); 
+        } else {
+            console.error("No se encontró la foto en los datos de la receta.");
+        }
     } else {
         console.error("No se encontraron datos de la receta en sessionStorage.");
     }
+    
 
     $('#Crear').on('click', function(event) {
         event.preventDefault(); // Evita el envío predeterminado del formulario
@@ -44,34 +54,6 @@ $(document).ready(function () {
         console.log("Usuario no autenticado o visitante");
     }
 
-    
-    // function cargarReceta(productId) {
-    //     var rec = productId.toString();
-    //     console.log("ESTE ES UNO: "+rec);
-    //     $.ajax({
-    //         url: '../modelo/detalles.php',  
-    //         method: 'POST',  
-    //         data: { receta_id: productId },  
-    //         dataType: 'json',
-    //         success: function(response) {
-    //             console.log("Respuesta del servidor:", response);  // Verifica lo que se recibe
-    //             if (response.success) {
-    //                 const receta = response.receta;
-    //                 sessionStorage.setItem("receta", JSON.stringify(receta));
-    //                 console.log("Receta guardada en sessionStorage:", receta);
-    //                 $("#nombreR").val(receta.nombre);
-    //                 $("#descripcionR").val(receta.descripcion);
-    //                 $("#categoriaR").val(receta.categoria);
-    //                 $("#tiempoR").val(receta.tiempo);
-    //                 $("#ingredientesR").val(receta.ingredientes);
-    //             } else {
-    //                 console.error("Error en la respuesta:", response.error);
-    //             }
-    //         },
-    //     });        
-    // }
-
-    
 
     function cargarPerfil(userID) {
         $.ajax({

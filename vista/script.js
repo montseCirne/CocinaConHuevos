@@ -68,11 +68,10 @@ const fetchProductDetails = (productId) => {
             } else {
                 sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
                 console.log("Receta recuperada:", rec);
-                $("#imagenR").attr("src", rec.foto || "");
                 $("#nombreR").val(rec.nombre || ""); 
-                $("#tiempoR").val(rec.tiempo || ""); 
-                $("#ingredientesR").val(rec.ingredientes || ""); 
-                $("#descripcionR").val(rec.descripcion || ""); 
+                $("#tiempo").val(rec.tiempo || ""); 
+                $("#ingredientes").val(rec.ingredientes || ""); 
+                $("#descripcion").val(rec.descripcion || ""); 
             }
         },
         
