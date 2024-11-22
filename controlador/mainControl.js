@@ -19,8 +19,9 @@ $(document).ready(function () {
     }
 
     if (recetaData) {
-        $("#nombrR").val(perfil.nombre);
-        
+        console.log("Receta recuperada:", recetaData);
+        $("#nombreR").val(recetaData.nombre);
+        $("#tiempo").val(recetaData.tiempo);
     } else {
         console.error("No se encontraron datos de la receta en sessionStorage.");
     }

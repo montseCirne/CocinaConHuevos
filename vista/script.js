@@ -62,12 +62,17 @@ const fetchProductDetails = (productId) => {
         dataType: 'json',
         data: { receta_id: productId }, // Enviar el ID del producto como parámetro GET
         success: (response) => {
-            console.log('Response from server:', response); // Agrega esto para ver la respuesta
+            const rec = response.receta;
             if (response.error) {
                 console.error(response.error);
             } else {
-                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(response));
-                console.log("Receta recuperada:", response);
+                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
+                console.log("Receta recuperada:", rec);
+                $("#imagenR").attr("src", rec.foto || "");
+                $("#nombreR").val(rec.nombre || ""); 
+                $("#tiempoR").val(rec.tiempo || ""); 
+                $("#ingredientesR").val(rec.ingredientes || ""); 
+                $("#descripcionR").val(rec.descripcion || ""); 
             }
         },
         
