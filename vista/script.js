@@ -14,8 +14,27 @@ $(document).ready(() => {
 
     $(document).on('click', '#editar', function () {
         const productId = $(this).data('product-id'); 
+        console.log(productId);
         fetchProductEdit(productId); 
     });
+    $(document).on('click', '#actualizar_receta', function () {
+        const productId = $(this).data('product-id'); 
+        console.log(productId);
+        fetchProductAct(productId); 
+    });
+    const recetaSeleccionada = JSON.parse(sessionStorage.getItem('recetaSeleccionada'));
+
+    if (recetaSeleccionada) {
+        $('#nombreR').val(recetaSeleccionada.nombre);
+        $('#categoria').val(recetaSeleccionada.categoria);
+        $('#tiempo').val(recetaSeleccionada.tiempo_coccion); 
+        $('#ingredientes').val(recetaSeleccionada.ingredientes);
+        $('#descripcion').val(recetaSeleccionada.descripcion);
+        if (recetaSeleccionada.foto) {
+            $('#foto-preview').attr('src', recetaSeleccionada.foto).show(); // Agrega una vista previa
+        }
+        $('#actualizar_receta').data('product-id', recetaSeleccionada.id);
+    }
 });
 
 const fetchProducts = (categoria = null) => {
@@ -84,10 +103,10 @@ const fetchProductDetails = (productId) => {
 
 const fetchProductEdit = (productId) => {
     $.ajax({
-        url: '../modelo/detalles.php', // Suponiendo que esta es la URL para obtener los detalles de la receta
+        url: '../modelo/detalles.php', 
         method: 'GET',
         dataType: 'json',
-        data: { receta_id: productId }, // Enviar el ID del producto como parámetro GET
+        data: { receta_id: productId }, 
         success: (response) => {
             const rec = response.receta;
             if (response.error) {
@@ -106,3 +125,28 @@ const fetchProductEdit = (productId) => {
     }); 
 };
 
+const fetchProductAct = (productId) => {
+    const formData = new FormData($('#recetaEdit')[0]);  
+    formData.append('id', productId);  
+    console.log(formData);
+
+    $.ajax({
+        url: '../modelo/actualizarReceta.php',
+        method: 'POST',
+        data: formData,
+        processData: false, 
+        contentType: false, 
+        success: (response) => {
+
+            if (response.success) {
+                alert('Receta actualizada con éxito.');
+            } else {
+                alert(response.message || 'Error al actualizar la receta.');
+            }
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            console.error('Error al actualizar la receta:', textStatus, errorThrown);
+            alert('Hubo un problema al actualizar la receta.');
+        }
+    });
+};

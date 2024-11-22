@@ -1,12 +1,12 @@
 <?php
-include_once "db.php"; // Asegúrate de que este archivo incluye la conexión PDO a la base de datos.
+include_once "db.php"; // Archivo que contiene la conexión PDO.
 header("Content-Type: application/json");
 header("Cache-Control: no-cache, private");
 header("Pragma: no-cache");
 
 $response = array();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recuperar datos enviados desde el cliente
     $recetaID = $_POST['id'] ?? null;
     $nombre = $_POST['nombre'] ?? null;
@@ -29,15 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                descripcion = COALESCE(:descripcion, descripcion), 
                                tiempo = COALESCE(:tiempo, tiempo), 
                                ingredientes = COALESCE(:ingredientes, ingredientes)";
-
             if ($foto !== null) {
                 $sql_receta .= ", foto = :foto"; 
             }
-
             $sql_receta .= " WHERE id = :recetaID";
 
             $stmt_receta = $db->prepare($sql_receta);
 
+            // Asociar los parámetros
             $stmt_receta->bindParam(":nombre", $nombre);
             $stmt_receta->bindParam(":descripcion", $descripcion);
             $stmt_receta->bindParam(":tiempo", $tiempo, PDO::PARAM_INT);
@@ -49,12 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $stmt_receta->bindParam(":recetaID", $recetaID, PDO::PARAM_INT);
 
+            // Ejecutar la consulta
             $stmt_receta->execute();
             $db->commit();
 
             $response['success'] = true;
             $response['message'] = "Receta actualizada correctamente.";
         } catch (Exception $e) {
+            // Revertir la transacción en caso de error
             $db->rollBack();
             $response['success'] = false;
             $response['error'] = "Error al actualizar receta: " . $e->getMessage();
@@ -68,5 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $response['error'] = "Método no permitido.";
 }
 
+// Devolver la respuesta en formato JSON
 echo json_encode($response);
 ?>
