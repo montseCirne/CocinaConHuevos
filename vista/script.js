@@ -1,17 +1,20 @@
 $(document).ready(() => {
-    // Configurar los eventos de las pestañas de categoría
     $('.categoria-tab').on('click', function () {
-        const categoria = $(this).data('categoria'); // Obtener la categoría del enlace
-        fetchProducts(categoria); // Cargar productos de esa categoría
+        const categoria = $(this).data('categoria'); 
+        fetchProducts(categoria); 
     });
 
-    // Cargar productos de la categoría por defecto (ejemplo: 'comida')
     fetchProducts("comida");
 
     $(document).on('click', '#ver-detalles', function () {
-        const productId = $(this).data('product-id'); // Obtener el ID del producto
+        const productId = $(this).data('product-id'); 
         console.log(productId);
-        fetchProductDetails(productId); // Obtener los detalles de la receta
+        fetchProductDetails(productId); 
+    });
+
+    $(document).on('click', '#editar', function () {
+        const productId = $(this).data('product-id'); 
+        fetchProductEdit(productId); 
     });
 });
 
@@ -45,7 +48,7 @@ const generateCards = (products) => {
                         <span class="card-title">${product.nombre}</span>
                     </div>
                     <div class="card-content">
-                        <button class="btn btn-warning" data-product-id="${product.id}">Editar</button>
+                        <button class="btn btn-warning" id="editar" data-product-id="${product.id}">Editar</button>
                         <button class="btn btn-warning" id="ver-detalles" data-product-id="${product.id}">Ver detalles</button>
                     </div>
                 </div>
@@ -76,7 +79,30 @@ const fetchProductDetails = (productId) => {
             console.error('AJAX error: ', textStatus, errorThrown);
             alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
         }
-    });
-    
+    }); 
+};
+
+const fetchProductEdit = (productId) => {
+    $.ajax({
+        url: '../modelo/detalles.php', // Suponiendo que esta es la URL para obtener los detalles de la receta
+        method: 'GET',
+        dataType: 'json',
+        data: { receta_id: productId }, // Enviar el ID del producto como parámetro GET
+        success: (response) => {
+            const rec = response.receta;
+            if (response.error) {
+                console.error(response.error);
+            } else {
+                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
+                console.log("Receta recuperada:", rec);
+                window.location.href = 'addRecipe.html'; 
+            }
+        },
+        
+        error: (jqXHR, textStatus, errorThrown) => {
+            console.error('AJAX error: ', textStatus, errorThrown);
+            alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
+        }
+    }); 
 };
 

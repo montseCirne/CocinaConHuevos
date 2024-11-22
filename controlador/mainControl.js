@@ -22,15 +22,19 @@ $(document).ready(function () {
         console.log("Receta recuperada:", recetaData);
     
         $("#nombreR").val(recetaData.nombre);
+        $("#categoria").val(recetaData.categoria);
         $("#tiempo").val(recetaData.tiempo);
         $("#ingredientes").val(recetaData.ingredientes); 
         $("#descripcion").val(recetaData.descripcion);
     
         if (recetaData.foto) {
             $("#imagenR").attr("src", recetaData.foto); 
+            $("#foto").attr("src", recetaData.foto);
+
         } else {
             console.error("No se encontró la foto en los datos de la receta.");
         }
+        
     } else {
         console.error("No se encontraron datos de la receta en sessionStorage.");
     }
