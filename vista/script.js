@@ -1,4 +1,11 @@
 $(document).ready(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const userID = sessionStorage.getItem('idU');
+        if (!userID) {
+            window.location.href = 'index.html';  
+        }
+    })
+    
     var sesionID = sessionStorage.getItem('idSesion');
 
     $('.categoria-tab').on('click', function () {
