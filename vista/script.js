@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    var sesionID = sessionStorage.getItem('idSesion');
+
     $('.categoria-tab').on('click', function () {
         const categoria = $(this).data('categoria'); 
         fetchProducts(categoria); 
@@ -12,11 +14,16 @@ $(document).ready(() => {
         fetchProductDetails(productId); 
     });
 
-    $(document).on('click', '#editar', function () {
-        const productId = $(this).data('product-id'); 
-        console.log(productId);
-        fetchProductEdit(productId); 
-    });
+    if(sesionID != null){
+        $(document).on('click', '#editar', function () {
+            const productId = $(this).data('product-id'); 
+            console.log(productId);
+            fetchProductEdit(productId); 
+        })
+    }else{
+        alert("No puedes realizar esta accion, necesitas iniciar sesion no registrarte");
+        window.location.href = 'index.html'; 
+    }
 
     $(document).on('click', '#actualizar_receta', function () {
         const productId = recetaSeleccionada.id; 

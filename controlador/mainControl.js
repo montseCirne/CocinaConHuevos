@@ -281,32 +281,38 @@ $(document).ready(function () {
     
 
 });
-$(document).ready(function () {
-    var recetarioID = sessionStorage.getItem('idRecetario');
-    $("#recetaForm").on("submit", function (e) {
-        e.preventDefault(); 
-        var formData = new FormData(this); 
-        formData.append("recetarioID", recetarioID);
-        $.ajax({
-            url: '../modelo/nuevaReceta.php', 
-            method: 'POST',
-            data: formData,
-            dataType: 'json',
-            contentType: false,  
-            processData: false,
-            success: function (response) {
-                console.log(formData);
-                if (response.success) {
-                    alert("Receta guardada exitosamente.");
+if(sesionID != 0){
+    $(document).ready(function () {
+        var recetarioID = sessionStorage.getItem('idRecetario');
+        $("#recetaForm").on("submit", function (e) {
+            e.preventDefault(); 
+            var formData = new FormData(this); 
+            formData.append("recetarioID", recetarioID);
+            $.ajax({
+                url: '../modelo/nuevaReceta.php', 
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                contentType: false,  
+                processData: false,
+                success: function (response) {
                     console.log(formData);
-                    document.getElementById("recetaForm").reset();
-                } else {
-                    alert("Error: " + response.error);
+                    if (response.success) {
+                        alert("Receta guardada exitosamente.");
+                        console.log(formData);
+                        document.getElementById("recetaForm").reset();
+                    } else {
+                        alert("Error: " + response.error);
+                    }
+                },
+                error: function () {
+                    alert("Ocurrió un error al guardar la receta.");
                 }
-            },
-            error: function () {
-                alert("Ocurrió un error al guardar la receta.");
-            }
+            });
         });
     });
-});
+    
+}else{
+    alert("No puedes realizar esta accion");
+    window.location.href = 'index.html';
+}
