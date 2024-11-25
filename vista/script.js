@@ -14,17 +14,13 @@ $(document).ready(() => {
         fetchProductDetails(productId); 
     });
 
-    if(sesionID != null){
-        $(document).on('click', '#editar', function () {
-            const productId = $(this).data('product-id'); 
-            console.log(productId);
-            fetchProductEdit(productId); 
-        })
-    }else{
-        alert("No puedes realizar esta accion, necesitas iniciar sesion o registrarte");
-        // window.location.href = 'index.html'; 
-    }
 
+    $(document).on('click', '#editar', function () {
+        const productId = $(this).data('product-id');
+        console.log(productId);
+        fetchProductEdit(productId);
+    })
+    
     $(document).on('click', '#actualizar_receta', function () {
         const productId = recetaSeleccionada.id; 
         fetchProductAct(productId); 
