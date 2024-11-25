@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     if (recetaData) {
         console.log("Receta recuperada:", recetaData);
-    
+        console.log("ID: "+ recetaData.id);
         $("#nombreR").val(recetaData.nombre);
         $("#categoria").val(recetaData.categoria).change();
         $("#tiempo").val(recetaData.tiempo);

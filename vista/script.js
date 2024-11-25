@@ -17,11 +17,11 @@ $(document).ready(() => {
         console.log(productId);
         fetchProductEdit(productId); 
     });
-    $(document).on('click', '#actualizar_receta', function () {
-        const productId = $(this).data('product-id'); 
-        console.log(productId);
-        fetchProductAct(productId); 
-    });
+    // $(document).on('click', '#actualizar_receta', function () {
+    //     const productId = $(this).data('product-id'); 
+    //     console.log(productId);
+    //     fetchProductAct(productId); 
+    // });
     const recetaSeleccionada = JSON.parse(sessionStorage.getItem('recetaSeleccionada'));
 
     if (recetaSeleccionada) {
@@ -77,6 +77,31 @@ const generateCards = (products) => {
 };
 
 // Función para obtener los detalles de una receta
+const fetchProductEdit = (productId) => {
+    $.ajax({
+        url: '../modelo/detalles.php', 
+        method: 'GET',
+        dataType: 'json',
+        data: { receta_id: productId }, 
+        success: (response) => {
+            const rec = response.receta;
+            console.log(rec.id)
+            if (response.error) {
+                console.error(response.error);
+            } else {
+                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
+                console.log("Receta recuperada:", rec);
+                window.location.href = 'editRecipe.html'; 
+            }
+        },
+        
+        error: (jqXHR, textStatus, errorThrown) => {
+            console.error('AJAX error: ', textStatus, errorThrown);
+            alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
+        }
+    }); 
+};
+
 const fetchProductDetails = (productId) => {
     $.ajax({
         url: '../modelo/detalles.php', // Suponiendo que esta es la URL para obtener los detalles de la receta
@@ -101,67 +126,71 @@ const fetchProductDetails = (productId) => {
     }); 
 };
 
-const fetchProductEdit = (productId) => {
-    $.ajax({
-        url: '../modelo/detalles.php', 
-        method: 'GET',
-        dataType: 'json',
-        data: { receta_id: productId }, 
-        success: (response) => {
-            const rec = response.receta;
-            if (response.error) {
-                console.error(response.error);
-            } else {
-                sessionStorage.setItem('recetaSeleccionada', JSON.stringify(rec));
-                console.log("Receta recuperada:", rec);
-                window.location.href = 'editRecipe.html'; 
-            }
-        },
-        
-        error: (jqXHR, textStatus, errorThrown) => {
-            console.error('AJAX error: ', textStatus, errorThrown);
-            alert("Hubo un problema al recuperar los detalles de la receta. Inténtalo de nuevo.");
-        }
-    }); 
-};
 
-const fetchProductAct = (productId) => {
-    const recetaData = JSON.parse(sessionStorage.getItem('recetaSeleccionada')); 
-    if (recetaData) {
-        const formData = new FormData();
-        
-        formData.append('id', productId); 
-        formData.append('nombre', recetaData.nombre); 
-        formData.append('categoria', recetaData.categoria);
-        formData.append('tiempo_coccion', recetaData.tiempo_coccion);
-        formData.append('ingredientes', recetaData.ingredientes);
-        formData.append('descripcion', recetaData.descripcion);
-        
-        // Si hay una foto, agrégala al FormData
-        if (recetaData.foto) {
-            formData.append('foto', recetaData.foto); 
-        }
+$(document).ready(function () {
+    $('#recetaEdit').on('submit', function (event) {
+        event.preventDefault(); 
+        let formData = new FormData(this);
         console.log(formData);
         $.ajax({
-            url: '../modelo/actualizarReceta.php',
-            method: 'POST',
+            url: '../modelo/actualizarReceta.php', // Archivo PHP donde procesarás la actualización
+            type: 'POST',
             data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer un tipo de contenido, ya que estamos enviando FormData
-            success: (response) => {
-                console.log("Respuesta del servidor: ", response);
+            contentType: false, // Necesario para enviar archivos
+            processData: false, // Evita que jQuery procese los datos
+            success: function (response) {
                 if (response.success) {
-                    alert('Receta actualizada con éxito.');
+                    alert('Receta actualizada correctamente');
+                    // Redirigir o actualizar lista de recetas
+                    window.location.href = "index.html"; // Cambiar a la página de inicio o listado de recetas
                 } else {
-                    alert(response.message || 'Error al actualizar la receta.');
+                    alert('Error: ' + response.error);
                 }
             },
-            error: (jqXHR, textStatus, errorThrown) => {
-                console.error('Error al actualizar la receta:', textStatus, errorThrown);
-                alert('Hubo un problema al actualizar la receta.');
+            error: function (xhr, status, error) {
+                alert('Error en la petición: ' + error);
             }
         });
-    } else {
-        alert("No se encontraron los datos de la receta.");
-    }
-};
+    });
+});
+
+// const fetchProductAct = (productId) => {
+//     const recetaData = JSON.parse(sessionStorage.getItem('recetaSeleccionada')); 
+//     if (recetaData) {
+//         const formData = new FormData();
+        
+//         formData.append('id', productId); 
+//         formData.append('nombre', recetaData.nombre); 
+//         formData.append('categoria', recetaData.categoria);
+//         formData.append('tiempo_coccion', recetaData.tiempo_coccion);
+//         formData.append('ingredientes', recetaData.ingredientes);
+//         formData.append('descripcion', recetaData.descripcion);
+        
+//         // Si hay una foto, agrégala al FormData
+//         if (recetaData.foto) {
+//             formData.append('foto', recetaData.foto); 
+//         }
+//         console.log(formData);
+//         $.ajax({
+//             url: '../modelo/actualizarReceta.php',
+//             method: 'POST',
+//             data: formData,
+//             processData: false, // No procesar los datos
+//             contentType: false, // No establecer un tipo de contenido, ya que estamos enviando FormData
+//             success: (response) => {
+//                 console.log("Respuesta del servidor: ", response);
+//                 if (response.success) {
+//                     alert('Receta actualizada con éxito.');
+//                 } else {
+//                     alert(response.message || 'Error al actualizar la receta.');
+//                 }
+//             },
+//             error: (jqXHR, textStatus, errorThrown) => {
+//                 console.error('Error al actualizar la receta:', textStatus, errorThrown);
+//                 alert('Hubo un problema al actualizar la receta.');
+//             }
+//         });
+//     } else {
+//         alert("No se encontraron los datos de la receta.");
+//     }
+// };

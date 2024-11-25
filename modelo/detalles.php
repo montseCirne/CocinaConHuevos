@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['receta_id'])) {
     $recetaId = $_GET['receta_id'];
 
     // Preparar la consulta SQL para recuperar la receta
-    $sql = "SELECT nombre, foto, descripcion, categoria, tiempo, ingredientes 
+    $sql = "SELECT id, nombre, foto, descripcion, categoria, tiempo, ingredientes 
             FROM receta WHERE Id = :receta_id";
 
     try {
