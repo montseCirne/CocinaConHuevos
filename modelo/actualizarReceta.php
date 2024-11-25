@@ -51,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $db->commit();
 
         $response['success'] = true;
-        $response['message'] = "Receta actualizada correctamente.";
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
         $db->rollBack();

@@ -145,8 +145,6 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     alert('Receta actualizada correctamente');
-                    // Redirigir o actualizar lista de recetas
-                    window.location.href = "index.html"; // Cambiar a la página de inicio o listado de recetas
                 } else {
                     alert('Error: ' + response.error);
                 }
