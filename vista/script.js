@@ -21,8 +21,8 @@ $(document).ready(() => {
             fetchProductEdit(productId); 
         })
     }else{
-        alert("No puedes realizar esta accion, necesitas iniciar sesion no registrarte");
-        window.location.href = 'index.html'; 
+        alert("No puedes realizar esta accion, necesitas iniciar sesion o registrarte");
+        // window.location.href = 'index.html'; 
     }
 
     $(document).on('click', '#actualizar_receta', function () {
