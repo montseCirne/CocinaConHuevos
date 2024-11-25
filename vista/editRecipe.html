@@ -147,6 +147,15 @@
     <script src="script.js"></script>
     <script src="../controlador/mainControl.js"></script>
     
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userID = sessionStorage.getItem('idU');
+            if (!userID) {
+                window.location.href = '../index.html';  // Redirigir si no hay sesión activa
+            }
+        });
+    </script>
+    
 </body>
 
 </html>
