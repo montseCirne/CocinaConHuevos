@@ -171,7 +171,7 @@ const fetchProductAct = (productId) => {
             console.log("Respuesta del servidor: ", response);
             if (response.success) {
                 alert('Receta actualizada con éxito.');
-                window.location.href = "index.html"; // Redirigir a la lista de recetas
+                window.location.href = "sesion.html"; 
             } else {
                 alert(response.message || 'Error al actualizar la receta.');
             }
