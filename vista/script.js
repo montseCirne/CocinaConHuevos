@@ -6,6 +6,7 @@ $(document).ready(() => {
         }
     })
     
+    
     var sesionID = sessionStorage.getItem('idSesion');
 
     $('.categoria-tab').on('click', function () {
